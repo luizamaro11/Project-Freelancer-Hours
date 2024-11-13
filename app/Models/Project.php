@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\ProjectStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -15,7 +16,9 @@ class Project extends Model
      * @var array
      */
     protected $casts = [
-        'tech_stack' => 'array'
+        'tech_stack' => 'array',
+        'status' => ProjectStatus::class,
+        'ends_at' => 'datetime'
     ];
 
     /*public function casts()
@@ -24,4 +27,14 @@ class Project extends Model
             'tech_stack' => 'array',
         ];
     }*/
+
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function proposals()
+    {
+        return $this->hasMany(Proposal::class);
+    }
 }
